@@ -1,0 +1,163 @@
+/* =========================================================
+   WEBXRAY Popup Styles — Minimal, matches Side Panel aesthetic
+   ========================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --wx-bg:       #0A0A1A;
+  --wx-surface:  #0F172A;
+  --wx-border:   #1E3A5F;
+  --wx-text:     #CBD5E1;
+  --wx-text-dim: #64748B;
+  --wx-cyan:     #00D4FF;
+  --wx-font:     "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  background: var(--wx-bg);
+  color: var(--wx-text);
+  font-family: var(--wx-font);
+  font-size: 13px;
+  width: 220px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wx-popup {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Header */
+.wx-popup-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wx-popup-logo {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--wx-cyan);
+}
+
+.wx-popup-tagline {
+  font-size: 11px;
+  color: var(--wx-text-dim);
+}
+
+/* Open button */
+.wx-popup-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  border: 1px solid;
+  font-family: var(--wx-font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.wx-popup-btn--primary {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: var(--wx-cyan);
+  color: var(--wx-cyan);
+}
+
+.wx-popup-btn--primary:hover {
+  background: rgba(0, 212, 255, 0.18);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+}
+
+.wx-popup-btn--primary:active {
+  transform: scale(0.97);
+}
+
+/* Quick stats */
+.wx-popup-stats {
+  background: var(--wx-surface);
+  border: 1px solid var(--wx-border);
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 56px;
+}
+
+.wx-popup-stats--loading {
+  justify-content: center;
+  color: var(--wx-text-dim);
+  font-size: 12px;
+  font-style: italic;
+}
+
+.wx-ps-domain {
+  font-size: 11px;
+  color: var(--wx-text-dim);
+  word-break: break-all;
+  margin-bottom: 3px;
+}
+
+.wx-ps-hint {
+  font-size: 11px;
+  color: var(--wx-text-dim);
+  font-style: italic;
+}
+
+.wx-ps-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.wx-ps-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--wx-cyan);
+  font-family: "Cascadia Code", "Consolas", monospace;
+}
+
+.wx-ps-num--red {
+  color: #FF3366;
+}
+
+.wx-ps-label {
+  font-size: 11px;
+  color: var(--wx-text-dim);
+}
+
+/* Footer */
+.wx-popup-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--wx-text-dim);
+}
+
+.wx-popup-divider {
+  opacity: 0.4;
+}
+
+.wx-popup-link {
+  color: var(--wx-text-dim);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.wx-popup-link:hover {
+  color: var(--wx-cyan);
+}

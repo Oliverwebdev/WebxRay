@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEBXRAY</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+
+  <!--
+    Three.js MUST be loaded as a regular script tag BEFORE our ES modules.
+    It sets window.THREE which our graph/ modules consume as a global.
+    Bundled locally — never loaded from an external CDN (MV3 CSP forbids it).
+  -->
+  <script src="lib/three.min.js"></script>
+</head>
+<body>
+
+  <!-- Statistics bar — live domain + category breakdown -->
+  <div id="wx-statsbar" class="wx-statsbar"></div>
+
+  <!-- Main 3D canvas — Three.js renders here -->
+  <canvas id="wx-canvas" class="wx-canvas"></canvas>
+
+  <!-- Hover tooltip — positioned near the hovered node -->
+  <div id="wx-tooltip" class="wx-tooltip"></div>
+
+  <!-- Click info card — appears when a node is clicked -->
+  <div id="wx-infocard" class="wx-infocard">
+    <!-- Content injected by infocard.js -->
+  </div>
+
+  <!-- Screenshot + Share button -->
+  <button id="wx-screenshot-btn" class="wx-screenshot-btn" title="Share this scan">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+    </svg>
+    Share Scan
+  </button>
+
+  <!-- Empty state — shown when no page is active -->
+  <div id="wx-empty-state" class="wx-empty-state">
+    <div class="wx-empty-icon">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="20" stroke="#00D4FF" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="32" cy="32" r="6" fill="#00D4FF" opacity="0.7"/>
+        <circle cx="14" cy="32" r="3" fill="#00D4FF" opacity="0.3"/>
+        <circle cx="50" cy="32" r="3" fill="#00D4FF" opacity="0.3"/>
+        <circle cx="32" cy="14" r="3" fill="#00D4FF" opacity="0.3"/>
+        <circle cx="32" cy="50" r="3" fill="#00D4FF" opacity="0.3"/>
+        <line x1="14" y1="32" x2="26" y2="32" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+        <line x1="38" y1="32" x2="50" y2="32" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+        <line x1="32" y1="14" x2="32" y2="26" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+        <line x1="32" y1="38" x2="32" y2="50" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="wx-empty-title">WEBXRAY</div>
+    <div class="wx-empty-subtitle">Navigate to a website to begin scanning.</div>
+  </div>
+
+  <!-- Load the main side panel module AFTER Three.js is ready -->
+  <script type="module" src="sidepanel.js"></script>
+
+</body>
+</html>

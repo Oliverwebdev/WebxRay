@@ -1,0 +1,537 @@
+/* =========================================================
+   WEBXRAY Side Panel Styles
+   Dark cyberpunk aesthetic — functional darkness that makes data pop.
+   All classes prefixed with wx- as per the DevProtocol.
+   ========================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --wx-bg:        #0A0A1A;
+  --wx-surface:   #0F172A;
+  --wx-surface2:  #1E293B;
+  --wx-border:    #1E3A5F;
+  --wx-text:      #CBD5E1;
+  --wx-text-dim:  #64748B;
+  --wx-cyan:      #00D4FF;
+  --wx-font:      "Segoe UI", system-ui, -apple-system, sans-serif;
+  --wx-mono:      "Cascadia Code", "Fira Code", "Consolas", monospace;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--wx-bg);
+  color: var(--wx-text);
+  font-family: var(--wx-font);
+  font-size: 13px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------
+   Statistics Bar
+   --------------------------------------------------------- */
+.wx-statsbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: var(--wx-surface);
+  border-bottom: 1px solid var(--wx-border);
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 52px;
+}
+
+.wx-stats-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wx-stats-total {
+  color: var(--wx-text);
+  font-size: 13px;
+}
+
+.wx-stats-total strong {
+  color: var(--wx-cyan);
+  font-weight: 700;
+}
+
+.wx-stats-requests {
+  color: var(--wx-text-dim);
+  font-size: 11px;
+}
+
+.wx-stats-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.wx-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.wx-badge strong {
+  font-weight: 700;
+}
+
+.wx-badge--overflow {
+  background: rgba(107, 114, 128, 0.15);
+  border-color: #6B7280;
+  color: #9CA3AF;
+}
+
+.wx-stats-waiting {
+  color: var(--wx-text-dim);
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------
+   3D Canvas
+   --------------------------------------------------------- */
+.wx-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  transition: opacity 0.3s ease;
+  /* The stats bar floats above the canvas via z-index — canvas fills full panel */
+}
+
+.wx-canvas:active {
+  cursor: grabbing;
+}
+
+/* ---------------------------------------------------------
+   Hover Tooltip
+   --------------------------------------------------------- */
+.wx-tooltip {
+  position: fixed;
+  z-index: 20;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--wx-border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  max-width: 220px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.wx-tooltip--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wx-tooltip-domain {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--wx-text);
+  word-break: break-all;
+  margin-bottom: 2px;
+}
+
+.wx-tooltip-meta {
+  display: block;
+  font-size: 10px;
+  color: var(--wx-text-dim);
+  text-transform: capitalize;
+}
+
+/* ---------------------------------------------------------
+   Node Info Card
+   --------------------------------------------------------- */
+.wx-infocard {
+  position: fixed;
+  top: 62px;
+  right: 8px;
+  z-index: 30;
+  width: min(280px, calc(100% - 16px));
+  background: rgba(15, 23, 42, 0.97);
+  border: 1px solid var(--wx-border);
+  border-radius: 8px;
+  padding: 14px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateX(12px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  overflow: hidden;
+  max-height: calc(100% - 80px);
+  overflow-y: auto;
+}
+
+.wx-infocard--visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+
+.wx-infocard-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: 1px solid var(--wx-border);
+  border-radius: 4px;
+  color: var(--wx-text-dim);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 6px;
+  line-height: 1.4;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.wx-infocard-close:hover {
+  color: var(--wx-text);
+  border-color: var(--wx-cyan);
+}
+
+.wx-infocard-domain {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--wx-text);
+  word-break: break-all;
+  padding-right: 28px;
+  margin-bottom: 8px;
+}
+
+.wx-infocard-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 12px;
+}
+
+.wx-infocard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.wx-infocard-stat {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--wx-border);
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.wx-stat-label {
+  font-size: 10px;
+  color: var(--wx-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 3px;
+}
+
+.wx-stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--wx-cyan);
+  font-family: var(--wx-mono);
+}
+
+.wx-infocard-section {
+  margin-bottom: 10px;
+}
+
+.wx-section-label {
+  font-size: 10px;
+  color: var(--wx-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.wx-section-value {
+  font-size: 12px;
+  color: var(--wx-text);
+  line-height: 1.5;
+}
+
+.wx-classification-reason {
+  font-style: italic;
+  color: var(--wx-text-dim);
+}
+
+.wx-urls-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wx-url-item {
+  font-family: var(--wx-mono);
+  font-size: 10px;
+  color: var(--wx-text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 3px 5px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 3px;
+  cursor: default;
+}
+
+.wx-url-item:hover {
+  color: var(--wx-text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.wx-url-empty {
+  font-size: 11px;
+  color: var(--wx-text-dim);
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------
+   Screenshot Button
+   --------------------------------------------------------- */
+.wx-screenshot-btn {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  z-index: 20;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid var(--wx-border);
+  color: var(--wx-text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--wx-font);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.15s ease,
+              background 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.wx-screenshot-btn:hover {
+  color: var(--wx-cyan);
+  border-color: var(--wx-cyan);
+  background: rgba(0, 212, 255, 0.08);
+  transform: scale(1.04);
+}
+
+.wx-screenshot-btn:active {
+  transform: scale(0.96);
+}
+
+/* ---------------------------------------------------------
+   Share Sheet
+   --------------------------------------------------------- */
+.wx-share-sheet {
+  position: fixed;
+  bottom: 60px;
+  right: 10px;
+  z-index: 40;
+  width: min(290px, calc(100% - 20px));
+  background: rgba(10, 12, 28, 0.97);
+  border: 1px solid var(--wx-border);
+  border-radius: 10px;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 212, 255, 0.08);
+  animation: wx-sheet-in 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes wx-sheet-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+
+.wx-share-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--wx-border);
+}
+
+.wx-share-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--wx-text);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.wx-share-close {
+  background: none;
+  border: none;
+  color: var(--wx-text-dim);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: color 0.15s;
+}
+.wx-share-close:hover { color: var(--wx-text); }
+
+.wx-share-preview-wrap {
+  padding: 10px 10px 6px;
+  background: rgba(255,255,255,0.02);
+}
+
+.wx-share-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid var(--wx-border);
+}
+
+.wx-share-actions {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wx-share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--wx-border);
+  background: rgba(255,255,255,0.03);
+  color: var(--wx-text);
+  font-family: var(--wx-font);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.wx-share-btn:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.15);
+  color: white;
+}
+
+.wx-share-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.wx-share-btn--primary {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: rgba(0, 212, 255, 0.4);
+  color: var(--wx-cyan);
+}
+
+.wx-share-btn--primary:hover {
+  background: rgba(0, 212, 255, 0.18);
+  border-color: var(--wx-cyan);
+  color: var(--wx-cyan);
+}
+
+.wx-share-btn--tweet {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255,255,255,0.12);
+  color: #e7e9ea;
+}
+
+.wx-share-btn--tweet:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.25);
+}
+
+/* ---------------------------------------------------------
+   Empty State
+   --------------------------------------------------------- */
+.wx-empty-state {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--wx-bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.wx-empty-state.wx-empty--visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.wx-empty-icon {
+  opacity: 0.5;
+  animation: wx-pulse 3s ease-in-out infinite;
+}
+
+.wx-empty-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--wx-cyan);
+  opacity: 0.7;
+}
+
+.wx-empty-subtitle {
+  font-size: 13px;
+  color: var(--wx-text-dim);
+}
+
+@keyframes wx-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* ---------------------------------------------------------
+   Scrollbar styling (webkit)
+   --------------------------------------------------------- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--wx-border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #2D4A6E; }

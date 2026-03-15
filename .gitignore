@@ -1,0 +1,21 @@
+# Node.js (build-lists.js dependencies, if any are added)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts (keep domains.json — it's pre-compiled for users)
+# data/domains.json intentionally NOT ignored
+
+
+
+# Local dev notes
+*.local
