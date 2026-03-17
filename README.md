@@ -15,16 +15,6 @@
 
 ---
 
-<!-- ⚠️ REPLACE THIS WITH YOUR ACTUAL DEMO GIF BEFORE LAUNCH
-     Record with ScreenToGif or LICEcap:
-     1. Visit nytimes.com or spiegel.de
-     2. Open the Side Panel
-     3. Wait 5 seconds — let nodes spawn
-     4. Slowly rotate the graph
-     5. Hover over a red node
-     Target: 800×500px, 12-18 seconds, looping, <5MB
-     This single GIF will generate more stars than every other line in this README combined.
--->
 
 ![WEBXRAY scanning a news site — 47 third-party connections revealed in real-time 3D](demo.gif)
 
