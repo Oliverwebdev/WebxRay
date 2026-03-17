@@ -1,96 +1,106 @@
-# WEBXRAY — See the invisible web.
-
 <div align="center">
 
-**Real-time 3D visualization of every hidden connection your browser makes.**
+# WEBXRAY
+
+**See every hidden connection your browser makes. In real-time. In 3D.**
+
+`51,000+ classified domains` · `~700 lines of code` · `zero data leaves your browser`
 
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome&logoColor=white)](#installation)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-00C48C)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-[![Three.js r128](https://img.shields.io/badge/Three.js-r128-black)](#)
 [![No tracking](https://img.shields.io/badge/telemetry-none-brightgreen)](#privacy)
 
 </div>
 
 ---
 
-> *"Every website you visit silently contacts dozens of external servers — ad networks, data brokers, fingerprinting services, social trackers. It happens in milliseconds. You never see it.*
-> *WEBXRAY makes it impossible to miss."*
+<!-- ⚠️ REPLACE THIS WITH YOUR ACTUAL DEMO GIF BEFORE LAUNCH
+     Record with ScreenToGif or LICEcap:
+     1. Visit nytimes.com or spiegel.de
+     2. Open the Side Panel
+     3. Wait 5 seconds — let nodes spawn
+     4. Slowly rotate the graph
+     5. Hover over a red node
+     Target: 800×500px, 12-18 seconds, looping, <5MB
+     This single GIF will generate more stars than every other line in this README combined.
+-->
+
+![WEBXRAY scanning a news site — 47 third-party connections revealed in real-time 3D](demo.gif)
+
+<div align="center">
+
+*That news site you just visited? It contacted 47 servers you've never heard of.*
+*Ad networks. Data brokers. Fingerprinting services. All in under 2 seconds.*
+*You never saw any of it. Until now.*
+
+</div>
 
 ---
 
-<!-- Replace with your actual demo GIF. Record with ScreenToGif or LICEcap:
-     Visit nytimes.com, open the Side Panel, wait 3 seconds, pan the graph.
-     Recommended: 600×400px, 15-20 seconds, looping. -->
-<!-- ![WEBXRAY scanning nytimes.com — 47 third-party connections visualized in real-time](demo.gif) -->
-
-## What you see
-
-When WEBXRAY is active, Chrome's Side Panel shows a live 3D force-directed graph. The site you're visiting sits at the center. Every server it contacts materializes as a satellite node. Lines pulse when data flows. Colors tell the story instantly:
-
-| Node color | Meaning |
-|---|---|
-| 🔵 **Cyan** | The site you're visiting |
-| 🟢 **Green** | First-party — the site's own resources |
-| 🟡 **Yellow** | Analytics (Google Analytics, Hotjar…) |
-| 🟠 **Orange** | Advertising networks |
-| 🟣 **Purple** | Social media trackers |
-| 🔴 **Red** | Cross-site trackers & fingerprinting |
-| ⚫ **Dark red** | Confirmed malware / phishing domains |
-| ⚪ **Gray** | Unknown third parties |
-
-Line thickness scales with request volume. Click any node for the full breakdown: domain, classification reason, request count, data transferred, request types, and raw URLs.
-
-**WEBXRAY is not a blocker. It doesn't touch a single request. It's a diagnostic instrument — a digital X-ray for the web.**
-
----
-
-## Features
-
-- **Zero configuration** — Install and open. No account, no API key, no setup wizard.
-- **Real-time 3D graph** — Force-directed layout with smooth spring physics. Rotate, zoom, hover, click.
-- **51,000+ classified domains** — Powered by Disconnect, EasyPrivacy, Peter Lowe's list, and URLhaus — all open-source, community-maintained.
-- **Tab-aware** — Resets cleanly when you switch tabs. No memory leaks.
-- **Share your scan** — One button generates a branded PNG. Copy to clipboard, download, or post directly to X/Twitter with a pre-filled message.
-- **Fully offline** — Classification runs locally. No data ever leaves your browser.
-- **Open source** — Every permission is justified and auditable.
-
----
-
-## Installation
-
-### Option A — Load unpacked (instant, no review wait)
+## Install in 30 seconds
 
 ```bash
 git clone https://github.com/Oliverwebdev/webxray.git
 ```
 
-1. Open Chrome → `chrome://extensions`
-2. Enable **Developer mode** (toggle, top-right)
-3. Click **Load unpacked** → select the `webxray/` folder
-4. Click the WEBXRAY icon in the toolbar → **Open Visualization**
-5. Navigate to any website and watch the graph build
+1. Open `chrome://extensions` → enable **Developer mode**
+2. Click **Load unpacked** → select the `webxray/` folder
+3. Click the WEBXRAY icon → **Open Visualization**
+4. Visit any website. Watch.
 
-### Option B — Chrome Web Store *(coming soon)*
+No account. No API key. No config. Just open it.
 
 ---
 
-## Rebuild the domain lists
+## What happens when you open a website
 
-`data/domains.json` is pre-compiled and ships with the extension. To regenerate it with the latest community lists:
+Your browser makes a request. WEBXRAY catches it — not the content, just the metadata: where it's going, what type it is, when it happened. It classifies the destination domain against 51,000+ known domains from four open-source community lists. Then it drops a node into a live 3D graph in Chrome's Side Panel.
 
-```bash
-node scripts/build-lists.js
-```
+Within seconds, you see the full picture:
 
-Sources pulled at build time:
-
-| List | Category |
+| Color | What it means |
 |---|---|
-| [Disconnect services.json](https://github.com/disconnectme/disconnect-tracking-protection) | Advertising, Analytics, Social, Fingerprinting, Cryptomining |
-| [EasyPrivacy](https://easylist.to/easylist/easyprivacy.txt) | Tracker |
-| [Peter Lowe's Ad Servers](https://pgl.yoyo.org/adservers/) | Advertising |
-| [URLhaus](https://urlhaus.abuse.ch/downloads/hostfile/) | Malicious |
+| 🔵 **Cyan** | The site you're visiting |
+| 🟢 **Green** | First-party resources — the site's own stuff |
+| 🟡 **Yellow** | Analytics — Google Analytics, Hotjar, Mixpanel |
+| 🟠 **Orange** | Advertising networks |
+| 🟣 **Purple** | Social media trackers |
+| 🔴 **Red** | Cross-site trackers & fingerprinting |
+| ⚫ **Dark red** | Confirmed malware or phishing domains |
+| ⚪ **Gray** | Unknown third parties — nobody has catalogued these yet |
+
+Lines pulse when data flows. Thickness = request volume. Click any node for the full breakdown: domain name, why it was classified that way, how many requests, how much data, and the raw URLs.
+
+**WEBXRAY doesn't block anything.** It doesn't touch your traffic. It's a diagnostic instrument — a digital X-ray for the web.
+
+---
+
+## Why this exists
+
+Every few weeks, another headline: *"Chrome extensions steal ChatGPT conversations from 900,000 users."* *"8.8 million users affected by DarkSpectre tracking campaign."* *"Extensions sold to new owners, silently turned into malware."*
+
+The problem isn't that people don't care about privacy. The problem is they can't *see* what's happening. DevTools exist, but they show raw data tables that mean nothing to most people. Privacy extensions show numbers and lists. None of them show you the actual, living network of connections.
+
+WEBXRAY makes it visual, visceral, and impossible to ignore. When you see 40+ red lines pulsing to servers you've never heard of, you don't need an explanation. You understand.
+
+---
+
+## Features
+
+**Zero configuration** — Install → click → see. Nothing else required.
+
+**Real-time 3D graph** — Force-directed layout with spring physics. Rotate, zoom, hover, click. New nodes animate in with organic motion.
+
+**51,000+ classified domains** — Disconnect, EasyPrivacy, Peter Lowe's list, URLhaus. All open-source. Updated by thousands of community contributors.
+
+**Share your scan** — One click exports a branded PNG screenshot. Every website becomes shareable content.
+
+**Fully offline** — Every classification runs locally inside your browser. No external API calls. No cloud. Works in airplane mode.
+
+**Tab-aware** — Switches cleanly between tabs. Proper Three.js disposal — no memory leaks, even after hours of use.
+
+**~700 lines of vanilla JS** — No framework. No build step. No dependencies beyond Three.js. Read the entire codebase in one sitting.
 
 ---
 
@@ -101,43 +111,74 @@ Your browser makes a request
           │
           ▼
    background.js  (Service Worker)
-   ├─ Extracts:  URL · request type · initiator · timestamp
-   ├─ Classifies: O(1) lookup in domains.json
-   │              → first-party detection via eTLD+1 matching
-   └─ Forwards:  chrome.runtime.sendMessage → Side Panel
+   ├─ Extracts:  URL · type · initiator · timestamp
+   ├─ Classifies: O(1) lookup against 51k domains
+   │              + eTLD+1 first-party detection
+   └─ Forwards:   message → Side Panel
           │
           ▼
    sidepanel.js  (Three.js WebGL)
-   ├─ New domain?  → spawn node + edge + spring physics
-   ├─ Known domain? → increment counter + pulse animation
-   └─ Renders at 60fps
+   ├─ New domain?   → spawn node + edge + spring physics
+   ├─ Known domain? → pulse animation + increment counter
+   └─ Renders at 60fps in isolated process
 ```
 
-The Service Worker processes each request in under 1ms. The Side Panel runs in its own isolated process and **cannot slow down page loading**.
+The Service Worker processes each request in **under 1ms**. The Side Panel runs in its own process — it **cannot slow down your browsing**.
 
 ---
 
 ## Privacy
 
-WEBXRAY needs broad permissions to do its job. Here's the exact accounting:
+WEBXRAY requests broad permissions. Here's exactly what each one does and doesn't do:
 
-| Permission | Does | Never does |
+| Permission | What it does | What it never does |
 |---|---|---|
-| `webRequest` | Reads URL, request type, initiator, timing | Reads bodies, cookies, form data |
-| `sidePanel` | Renders the visualization | — |
-| `activeTab` | Knows which tab to watch | Accesses page content |
+| `webRequest` | Reads request URL, type, initiator, timing | Read bodies, cookies, form data, passwords |
+| `sidePanel` | Renders the 3D visualization | — |
+| `activeTab` | Identifies which tab to visualize | Access page content or DOM |
 | `tabs` | Detects tab switches | — |
-| `storage` | Saves preferences locally | Syncs anywhere |
-| `<all_urls>` | Required for webRequest to observe any domain | Cannot be scoped narrower |
+| `storage` | Saves your preferences locally | Sync or send data anywhere |
+| `<all_urls>` | Required for webRequest to observe any domain | Cannot be scoped narrower by Chrome's API |
 
 **WEBXRAY never:**
 - Reads request or response bodies
-- Accesses cookies, passwords, or authentication headers
+- Accesses cookies, passwords, or auth headers
 - Injects scripts into web pages
-- Sends any data to any external server
+- Sends data to any external server
 - Stores your browsing history
 
-Don't trust the words — read the code. The complete extension is ~700 lines of vanilla JavaScript.
+Don't trust the words — **read the code.** The entire extension is ~700 lines of vanilla JavaScript. No minification, no obfuscation. What you see is what runs.
+
+---
+
+## Rebuild the domain lists
+
+`data/domains.json` ships pre-compiled. To regenerate with the latest community lists:
+
+```bash
+node scripts/build-lists.js
+```
+
+| Source | Maps to |
+|---|---|
+| [Disconnect services.json](https://github.com/nicedoc/disconnect-tracking-protection) | Advertising, Analytics, Social, Fingerprinting, Cryptomining |
+| [EasyPrivacy](https://easylist.to/easylist/easyprivacy.txt) | Tracker |
+| [Peter Lowe's Ad Servers](https://pgl.yoyo.org/adservers/) | Advertising |
+| [URLhaus](https://urlhaus.abuse.ch/downloads/hostfile/) | Malicious |
+
+---
+
+## Performance
+
+| Metric | Target |
+|---|---|
+| Side Panel memory | < 150 MB after 5 min on heavy sites |
+| Frame rate | > 24 fps with 100+ visible nodes |
+| Page load impact | < 50 ms |
+| Time to first node | < 500 ms from navigation |
+| Package size | ~2.3 MB |
+
+200-node cap prevents layout explosion. Excess domains collapse into a **+N more** cluster node.
 
 ---
 
@@ -145,79 +186,54 @@ Don't trust the words — read the code. The complete extension is ~700 lines of
 
 ```
 webxray/
-├── manifest.json           # MV3 — every permission documented
-├── background.js           # Service Worker: intercept → classify → forward
-├── classifier.js           # eTLD+1 matching + domain list lookup
-├── sidepanel.html/js/css   # 3D visualization
-├── popup.html/js/css       # Toolbar popup
+├── manifest.json            # MV3 — every permission justified
+├── background.js            # Service Worker: intercept → classify → forward
+├── classifier.js            # eTLD+1 matching + domain lookup
+├── sidepanel.html/js/css    # 3D visualization engine
+├── popup.html/js/css        # Toolbar popup
 ├── graph/
-│   ├── scene.js            # Three.js scene, orbit controls, render loop
-│   ├── nodes.js            # Sphere meshes, glow effects
-│   ├── edges.js            # Cylinder edges, pulse animation
-│   ├── layout.js           # Force-directed physics (Coulomb + Hooke)
-│   └── interaction.js      # Raycasting, hover, click
+│   ├── scene.js             # Three.js scene, camera, controls
+│   ├── nodes.js             # Sphere meshes, color management
+│   ├── edges.js             # Cylinder edges, pulse shaders
+│   ├── layout.js            # Force-directed physics
+│   └── interaction.js       # Raycasting, hover, click
 ├── ui/
-│   ├── statsbar.js         # Live category breakdown
-│   ├── infocard.js         # Node detail overlay
-│   └── screenshot.js       # Canvas capture, branding, share sheet
-├── lib/three.min.js        # Three.js r128 — bundled locally, never CDN
-├── data/domains.json       # ~52k classified domains
-└── scripts/
-    ├── build-lists.js      # Compiles domain lists at build time
-    └── make_icons.py       # Regenerates extension icons
+│   ├── statsbar.js          # Live category breakdown
+│   ├── infocard.js          # Node detail overlay
+│   └── screenshot.js        # Canvas capture + branding
+├── lib/three.min.js         # Three.js r128 — bundled, never CDN
+├── data/domains.json        # 51k+ classified domains
+└── scripts/build-lists.js   # Compiles domain lists at build time
 ```
-
----
-
-## Performance budget
-
-| Metric | Target |
-|---|---|
-| Side Panel memory | < 150 MB after 5 min on a heavy news site |
-| Frame rate | > 24 fps with 100+ visible nodes |
-| Page load impact | < 50 ms — webRequest observation is read-only |
-| Time to first node | < 500 ms from navigation |
-| Extension package | ~2.3 MB (Three.js 590 KB + domains.json 1.7 MB + code) |
-
-The 200-node cap prevents layout explosion on ad-heavy sites. Excess nodes collapse into a single **+N more** cluster.
 
 ---
 
 ## Contributing
 
-Bug reports, PRs, and domain classification corrections are welcome.
+Bug reports, PRs, and classification corrections welcome.
 
 **Good first issues:**
-- Wrong category for a known domain → fix in `scripts/build-lists.js` source mapping
-- Performance improvements to the force layout in `graph/layout.js`
+- Wrong category for a known domain → fix source mapping in `scripts/build-lists.js`
+- Performance improvements in `graph/layout.js`
 - 2D flat view mode toggle
 
-**Hard rules (non-negotiable):**
-- No content scripts injected into web pages
+**Hard rules:**
+- No content scripts injected into pages
 - No external network requests from the extension
 - No `eval()` or dynamic script loading
 - Manifest stays MV3
 
 ---
 
-## Tech stack
-
-- **Chrome Extensions Manifest V3** — Service Worker, Side Panel API, webRequest
-- **Three.js r128** — WebGL rendering, bundled locally
-- **Vanilla JavaScript** — ES modules, zero build step for the extension
-- **Node.js 18+** — Build-time only, for compiling domain lists
-
----
-
 ## License
 
-[MIT](LICENSE) — © 2026 Oliver ([@Oliverwebdev](https://github.com/Oliverwebdev))
+[MIT](LICENSE) — © 2026 webdevoli ([@Oliverwebdev](https://github.com/Oliverwebdev))
 
 ---
 
 <div align="center">
 
-*Built by a developer from Bavaria who got tired of not being able to see what websites were doing to his browser.*
+*Built by a developer from Bavaria who got tired of not seeing what websites do behind the curtain.*
 
 **WEBXRAY observes. It never touches.**
 
